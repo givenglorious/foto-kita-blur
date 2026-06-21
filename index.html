@@ -110,7 +110,9 @@
       height: 480
     });
 
-    camera.start();
+    camera.start().catch(error => {
+      console.error('Camera permission denied or camera not available:', error);
+    });
   </script>
 </body>
 </html>
