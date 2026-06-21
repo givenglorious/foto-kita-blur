@@ -25,6 +25,7 @@ html, body {
   overflow: hidden;
 }
 
+/* Title bar mirip jendela cv2.imshow */
 .titlebar {
   background: linear-gradient(#3c3c3c, #2a2a2a);
   color: #ddd;
@@ -57,7 +58,7 @@ html, body {
 .dots .min   { background: #febc2e; }
 .dots .max   { background: #28c840; }
 
-
+/* Area video, seperti canvas di window cv2 */
 .video-area {
   background: #000;
   padding: 10px;
@@ -80,6 +81,7 @@ html, body {
   border-radius: 2px;
 }
 
+/* Menu bar bawah berisi audio player */
 .menu-bar {
   background: #d9d9d9;
   border-top: 1px solid #bbb;
@@ -101,66 +103,40 @@ html, body {
 }
 
 @media (max-width: 480px) {
-  html, body {
-    padding: 0;
-    background: #000;
+  body {
+    padding: 8px;
   }
 
-  .window {
-    width: 100vw;
-    max-width: 100vw;
-    height: 100vh;
-    min-height: 100dvh;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    display: flex;
-    flex-direction: column;
+  .titlebar {
+    padding: 5px 8px;
+    font-size: 12px;
   }
 
-
-  .titlebar,
-  .menu-bar {
-    display: none;
+  .titlebar .dots span {
+    width: 8px;
+    height: 8px;
   }
 
   .video-area {
-    flex: 1;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  #output_canvas {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    object-fit: cover;
-    border-radius: 0;
+    padding: 6px;
   }
 
   .mobile-audio-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: 50%;
-    bottom: 28px;
-    transform: translateX(-50%);
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.18);
-    border: 3px solid #fff;
-    color: #fff;
-    font-size: 20px;
-    backdrop-filter: blur(4px);
+    display: none;
   }
 
-  .mobile-audio-btn.playing {
-    background: rgba(255, 80, 80, 0.5);
-    border-color: #ff5050;
+  .menu-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .menu-bar .label {
+    font-size: 11px;
+  }
+
+  .menu-bar audio {
+    width: 100%;
   }
 }
