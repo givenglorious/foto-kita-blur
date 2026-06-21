@@ -6,17 +6,18 @@
 
 html, body {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background: #2b2b2b;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+  padding: 16px;
 }
 
 .window {
   width: 680px;
-  max-width: 95vw;
+  max-width: 100%;
   background: #ececec;
   border: 1px solid #555;
   border-radius: 4px;
@@ -24,7 +25,7 @@ html, body {
   overflow: hidden;
 }
 
-
+/* Title bar mirip jendela cv2.imshow */
 .titlebar {
   background: linear-gradient(#3c3c3c, #2a2a2a);
   color: #ddd;
@@ -57,10 +58,10 @@ html, body {
 .dots .min   { background: #febc2e; }
 .dots .max   { background: #28c840; }
 
-
+/* Area video, seperti canvas di window cv2 */
 .video-area {
   background: #000;
-  padding: 7px;
+  padding: 10px;
 }
 
 #input_video {
@@ -75,7 +76,7 @@ html, body {
   border-radius: 2px;
 }
 
-
+/* Menu bar bawah berisi audio player */
 .menu-bar {
   background: #d9d9d9;
   border-top: 1px solid #bbb;
@@ -94,4 +95,43 @@ html, body {
 .menu-bar audio {
   flex: 1;
   height: 32px;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 8px;
+  }
+
+  .titlebar {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+
+  .titlebar .dots span {
+    width: 8px;
+    height: 8px;
+  }
+
+  .video-area {
+    padding: 6px;
+  }
+
+  #output_canvas {
+    border-radius: 2px;
+  }
+
+  .menu-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .menu-bar .label {
+    font-size: 11px;
+  }
+
+  .menu-bar audio {
+    width: 100%;
+  }
 }
