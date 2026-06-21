@@ -1,0 +1,9 @@
+{
+  "name": "poto-kita-blur",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Deteksi tanda damai (peace sign) lewat webcam untuk mengaktifkan blur layar, menggunakan MediaPipe Hands.",
+  "scripts": {
+    "dev": "npx serve ."
+  }
+}
