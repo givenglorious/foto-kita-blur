@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Poto kita blur</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="window">
+    <div class="titlebar">
+      <span class="name">Poto kita blur</span>
+      <span class="dots">
+        <span class="min"></span>
+        <span class="max"></span>
+        <span class="close"></span>
+      </span>
+    </div>
+
+    <div class="video-area">
+      <video id="input_video" playsinline></video>
+      <canvas id="output_canvas"></canvas>
+    </div>
+
+    <div class="menu-bar">
+      <span class="label">Audio</span>
+      <audio id="alert_player" controls src="sound.mpeg"></audio>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <script>
+    const videoElement = document.getElementById('input_video');
+    const canvasElement = document.getElementById('output_canvas');
+    const canvasCtx = canvasElement.getContext('2d');
+
+    canvasElement.width = 640;
+    canvasElement.height = 480;
+
+    function isPeaceSign(landmarks) {
+      const indexTip = landmarks[8];
+      const middleTip = landmarks[12];
+      const ringTip = landmarks[16];
+      const pinkyTip = landmarks[20];
+
+      const indexPip = landmarks[6];
+      const middlePip = landmarks[10];
+      const ringPip = landmarks[14];
+      const pinkyPip = landmarks[18];
+
+      const indexUp = indexTip.y < indexPip.y;
+      const middleUp = middleTip.y < middlePip.y;
+      const ringDown = ringTip.y > ringPip.y;
+      const pinkyDown = pinkyTip.y > pinkyPip.y;
+
+      return indexUp && middleUp && ringDown && pinkyDown;
+    }
+
+    let prevBlurMode = false;
+
+
+    const alertAudio = document.getElementById('alert_player');
+
+    function onResults(results) {
+      canvasCtx.save();
+      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
+      let blurMode = false;
+
+      if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+        for (const landmarks of results.multiHandLandmarks) {
+          if (isPeaceSign(landmarks)) {
+            blurMode = true;
+          }
+        }
+      }
+
+      // Mirror layar (seperti cv2.flip horizontal di Python)
+      canvasCtx.translate(canvasElement.width, 0);
+      canvasCtx.scale(-1, 1);
+
+      canvasCtx.filter = blurMode ? 'blur(12px)' : 'none';
+      canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+      canvasCtx.filter = 'none';
+
+      canvasCtx.restore();
+
+      prevBlurMode = blurMode;
+    }
+
+    const hands = new Hands({
+      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+    });
+
+    hands.setOptions({
+      maxNumHands: 1,
+      modelComplexity: 1,
+      minDetectionConfidence: 0.7,
+      minTrackingConfidence: 0.7
+    });
+
+    hands.onResults(onResults);
+
+    const camera = new Camera(videoElement, {
+      onFrame: async () => {
+        await hands.send({ image: videoElement });
+      },
+      width: 640,
+      height: 480
+    });
+
+    camera.start();
+  </script>
+</body>
+</html>
