@@ -2,14 +2,14 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Poto kita blur</title>
+<title>Peace Sign Blur</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="window">
     <div class="titlebar">
-      <span class="name">Poto kita blur</span>
+      <span class="name">Peace Sign Blur</span>
       <span class="dots">
         <span class="min"></span>
         <span class="max"></span>
@@ -20,6 +20,7 @@
     <div class="video-area">
       <video id="input_video" playsinline></video>
       <canvas id="output_canvas"></canvas>
+      <button id="mobile_audio_btn" class="mobile-audio-btn" aria-label="Putar audio">&#9658;</button>
     </div>
 
     <div class="menu-bar">
@@ -60,8 +61,32 @@
 
     let prevBlurMode = false;
 
-
     const alertAudio = document.getElementById('alert_player');
+    const mobileAudioBtn = document.getElementById('mobile_audio_btn');
+
+    mobileAudioBtn.addEventListener('click', () => {
+      if (alertAudio.paused) {
+        alertAudio.play();
+      } else {
+        alertAudio.pause();
+        alertAudio.currentTime = 0;
+      }
+    });
+
+    alertAudio.addEventListener('play', () => {
+      mobileAudioBtn.innerHTML = '&#10074;&#10074;';
+      mobileAudioBtn.classList.add('playing');
+    });
+
+    alertAudio.addEventListener('pause', () => {
+      mobileAudioBtn.innerHTML = '&#9658;';
+      mobileAudioBtn.classList.remove('playing');
+    });
+
+    alertAudio.addEventListener('ended', () => {
+      mobileAudioBtn.innerHTML = '&#9658;';
+      mobileAudioBtn.classList.remove('playing');
+    });
 
     function onResults(results) {
       canvasCtx.save();
