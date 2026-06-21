@@ -21,7 +21,6 @@
     <div class="video-area">
       <video id="input_video" playsinline></video>
       <canvas id="output_canvas"></canvas>
-      <button id="mobile_audio_btn" class="mobile-audio-btn" aria-label="Putar audio">&#9658;</button>
     </div>
 
     <div class="menu-bar">
@@ -63,31 +62,6 @@
     let prevBlurMode = false;
 
     const alertAudio = document.getElementById('alert_player');
-    const mobileAudioBtn = document.getElementById('mobile_audio_btn');
-
-    mobileAudioBtn.addEventListener('click', () => {
-      if (alertAudio.paused) {
-        alertAudio.play();
-      } else {
-        alertAudio.pause();
-        alertAudio.currentTime = 0;
-      }
-    });
-
-    alertAudio.addEventListener('play', () => {
-      mobileAudioBtn.innerHTML = '&#10074;&#10074;';
-      mobileAudioBtn.classList.add('playing');
-    });
-
-    alertAudio.addEventListener('pause', () => {
-      mobileAudioBtn.innerHTML = '&#9658;';
-      mobileAudioBtn.classList.remove('playing');
-    });
-
-    alertAudio.addEventListener('ended', () => {
-      mobileAudioBtn.innerHTML = '&#9658;';
-      mobileAudioBtn.classList.remove('playing');
-    });
 
     function onResults(results) {
       canvasCtx.save();
